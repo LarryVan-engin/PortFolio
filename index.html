@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+
+<body>
+    <!-- Page Loader -->
+    <div id="page-loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Particles Background -->
+    <canvas id="particles-bg"></canvas>
+
+    <!-- Dark/Light Mode Toggle (Fixed) -->
+    <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
+        <span id="theme-icon">🌙</span>
+    </button>
+
+    <!-- HEADER -->
+    <header>
+        <h1>My Portfolio</h1>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="snap-section">
+        <div class="hero-content">
+            <h1 class="hero-title split">
+                Hello, I'm <strong>Larry</strong>
+            </h1>
+            <p class="hero-subtitle">
+                <span id="typing"></span>
+            </p>
+
+            <a href="#about" class="hero-btn">Explore More ↓</a>
+        </div>
+        <div class="shader-bg"></div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="snap-section">
+        <div class="about-container">
+            <h2 class="section-title split">About Me</h2>
+            <p class="about-text">
+                I am a developer passionate about AI, web development, and modern technology.
+                I love creating beautiful, optimized and high-performance digital experiences.
+                I am constantly learning and exploring new technologies to improve my skills and deliver the best solutions.
+                For me, every project is an opportunity to innovate and bring value to users.
+                I give intelligent solutions to complex problems with creativity and dedication.
+            </p>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO SECTION -->
+    <section id="portfolio" class="snap-section">
+        <div class="container">
+            <h2 class="section-title split">My Projects</h2>
+
+            <!-- Filter Buttons -->
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="AI">AI</button>
+                <button class="filter-btn" data-filter="Web">Web</button>
+                <button class="filter-btn" data-filter="Python">Python</button>
+            </div>
+
+            <!-- Grid Projects -->
+            <div id="portfolio-grid" class="grid-layout"></div>
+        </div>
+    </section>
+
+    <!-- MODAL POPUP -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <img id="modal-image" src="" alt="Project Image">
+            <h2 id="modal-title"></h2>
+            <p id="modal-desc"></p>
+        </div>
+    </div>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="snap-section">
+        <div class="contact-container">
+            <h2 class="section-title split">Get In Touch</h2>
+
+            <form id="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Email Address" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit" class="send-btn">Send Message</button>
+            </form>
+
+            <div class="social-links">
+                <a href="#" class="social-icon">🐦</a>
+                <a href="#" class="social-icon">💼</a>
+                <a href="#" class="social-icon">📷</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-section">
+        <b>
+        © 2025 Designed By Larry Van — All rights reserved.<br>
+        All infomations please contact me at my contacts.
+        </b>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="scripts.js"></script>
+</body>
+
+<div id="scroll-progress"></div>
+</html>

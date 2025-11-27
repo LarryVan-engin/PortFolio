@@ -1,150 +1,178 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Larry Van — Portfolio V2</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+  <!-- SEO -->
+  <meta name="description" content="Portfolio của Larry Van — AI, Web & Automation Developer.">
+  <meta name="keywords" content="AI, Web, Developer, JavaScript, HTML, CSS, Portfolio">
+  <meta name="author" content="Larry Van">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- Preload Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
+<canvas id="particle-canvas"></canvas>
+
 <body>
-    <!-- Page Loader -->
-    <div id="page-loader">
-        <div class="spinner"></div>
+  <!-- Page Loader -->
+  <div id="page-loader"><div class="spinner"></div></div>
+
+  <!-- Theme Toggle -->
+  <button id="theme-toggle-btn" class="theme-toggle-btn" title="Chuyển giao diện">
+    <span id="theme-icon">🌙</span>
+  </button>
+
+  <!-- HEADER -->
+  <header>
+    <h1>My Portfolio</h1>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="hero" class="snap-section">
+    <div class="hero-content">
+      <h1 class="hero-title split">Hello, I'm <strong>Larry</strong></h1>
+      <p class="hero-subtitle"><span id="typing"></span></p>
+      <a href="#portfolio" class="hero-btn">Explore Projects ↓</a>
+    </div>
+    <div class="animated-blobs">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
     </div>
 
-    <!-- Particles Background -->
-    <canvas id="particles-bg"></canvas>
+    <div class="shader-bg"></div>
+  </section>
 
-    <!-- Dark/Light Mode Toggle (Fixed) -->
-    <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle dark/light mode">
-        <span id="theme-icon">🌙</span>
-    </button>
+  <!-- ABOUT SECTION -->
+  <section id="about" class="snap-section">
+    <div class="about-container glass">
+      <h2 class="section-title gradient-text split">About Me</h2>
+      <div class="about-bg-glow"></div>
+      <div class="about-bg-glow"></div>
+      
+      <div class="about-text">
+        <p>
+        I am <strong>Van Dac Phong Truc</strong> — an aspiring <span class="gradient">AI & Automation Developer</span> 
+        passionate about integrating intelligence into real-world systems.  
+        Currently pursuing a Bachelor’s degree in <strong>Electronics and Telecommunications Engineering</strong> 
+        at Ho Chi Minh University of Technology, I continuously explore how AI and IoT can 
+        transform industries and daily life.
+        </p>
 
-    <!-- HEADER -->
-    <header>
-        <h1>My Portfolio</h1>
-    </header>
+        <p>
+        <br><br>
+        My journey started from the foundation of <span class="gradient">Telecommunications and Networking</span> — 
+        mastering SIP, VoIP, and network architectures — before evolving into the field of 
+        <span class="gradient">Artificial Intelligence and Computer Vision</span>.  
+        Through academic and independent research, I have developed AI models such as 
+        <strong>U-Net</strong> for medical DICOM image segmentation and 
+        <strong>YOLOv12</strong> for real-time traffic violation detection, achieving high accuracy 
+        and real-world usability.
+        </p> 
 
-    <!-- HERO SECTION -->
-    <section id="hero" class="snap-section">
-        <div class="hero-content">
-            <h1 class="hero-title split">
-                Hello, I'm <strong>Larry</strong>
-            </h1>
-            <p class="hero-subtitle">
-                <span id="typing"></span>
-            </p>
+        <p>
+        <br><br>
+        During my internship at <strong>TMA Solutions</strong>, I worked on automation and functional testing 
+        for VoIP systems, while collaborating on internal tool development to improve test 
+        efficiency.  
+        These experiences taught me precision, reliability, and how to turn complex systems 
+        into elegant, optimized solutions — skills I now apply in every project I build.
+        </p>
+        <p>
+        <br><br>
+        My ultimate goal is to become an <strong>R&D Engineer</strong> specializing in 
+        <span class="gradient">AI, IoT, and Computer Vision</span>, where I can combine creativity, 
+        engineering, and curiosity to craft scalable, innovative technologies that shape 
+        a smarter future.  
+        I believe in designing not only systems that work — but experiences that inspire.
+        </p> 
 
-            <a href="#about" class="hero-btn">Explore More ↓</a>
+    </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio" class="snap-section">
+    <div class="container">
+      <h2 class="section-title split">My Projects</h2>
+
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="AI">AI</button>
+        <button class="filter-btn" data-filter="Web">Web</button>
+        <button class="filter-btn" data-filter="IoT">IoT</button>
+      </div>
+
+      <div id="portfolio-grid" class="grid-layout"></div>
+    </div>
+  </section>
+
+  <!-- PROJECT MODAL -->
+  <div id="project-modal" class="modal">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h2 id="modal-title"></h2>
+        <span class="close-btn">&times;</span>
+      </div>
+      <div class="modal-body">
+        <img id="modal-image" src="" alt="Project Image">
+        <p id="modal-desc"></p>
+        <div id="modal-gallery" class="gallery"></div>
+        <div class="modal-links">
+          <a id="modal-github" href="#" target="_blank" class="btn glass">🐙 GitHub</a>
+          <a id="modal-demo" href="#" target="_blank" class="btn glass">🌐 Live Demo</a>
         </div>
-        <div class="shader-bg"></div>
-    </section>
+      </div>
+    </div>
+  </div>
 
-    <!-- ABOUT SECTION -->
-    <section id="about" class="snap-section">
-        <div class="about-container">
-            <h2 class="section-title split">About Me</h2>
-            <p class="about-text">
-                I am a developer passionate about AI, web development, and modern technology.
-                I love creating beautiful, optimized and high-performance digital experiences.
-                I am constantly learning and exploring new technologies to improve my skills and deliver the best solutions.
-                For me, every project is an opportunity to innovate and bring value to users.
-                I give intelligent solutions to complex problems with creativity and dedication.
-            </p>
-        </div>
-    </section>
+  <section id="contact" class="fade-section">
+    <div class="contact-container glass">
+        <h2 class="section-title split gradient-text">Get In Touch 💬</h2>
 
-    <!-- PORTFOLIO SECTION -->
-    <section id="portfolio" class="snap-section">
-        <div class="container">
-            <h2 class="section-title split">My Projects</h2>
+        <!-- Contact Form -->
+        <form id="contact-form" class="glass">
+        <input type="text" name="from_name" placeholder="Your Name" required>
+        <input type="email" name="from_email" placeholder="Email Address" required>
+        <textarea name="user_message" placeholder="Your Message" required></textarea>
+        <button type="submit" class="send-btn">Send Message</button>
+        </form>
 
-            <!-- Filter Buttons -->
-            <div class="filter-bar">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="AI">AI</button>
-                <button class="filter-btn" data-filter="Web">Web</button>
-                <button class="filter-btn" data-filter="Python">Python</button>
-            </div>
-
-            <!-- Grid Projects -->
-            <div id="portfolio-grid" class="grid-layout"></div>
-        </div>
-    </section>
-
-    <!-- MODAL POPUP -->
-    <div id="project-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <img id="modal-image" src="" alt="Project Image">
-            <h2 id="modal-title"></h2>
-            <p id="modal-desc"></p>
+        <!-- Contact Info -->
+        <div class="contact-info">
+        <h3 class="info-title">Or contact me directly:</h3>
+        <ul class="info-list">
+            <li><a href="mailto:truc.vanlarrytt@hcmut.edu.vn">📧 truc.vanlarrytt@hcmut.edu.vn</a></li>
+            <li><a href="https://github.com/LarryVan-engin" target="_blank">🐙 GitHub: @LarryVan-engin</a></li>
+            <li><a href="https://www.facebook.com/profile.php?id=100038020250962" target="_blank">💼 Facebook: Văn Đắc Phong Trực</a></li>
+            <li><a href="https://discord.gg/phongtruc" target="_blank">🕹 Discord: Dip my soul into Deadline</a></li>
+        </ul>
         </div>
     </div>
-
-    <!-- CONTACT SECTION -->
-    <section id="contact" class="snap-section">
-        <div class="contact-container">
-            <h2 class="section-title split">Get In Touch</h2>
-
-            <form id="contact-form">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Email Address" required>
-                <textarea placeholder="Your Message" required></textarea>
-                <button type="submit" class="send-btn">Send Message</button>
-            </form>
-
-            <div class="social-links">
-                <a href="#" class="social-icon">🐦</a>
-                <a href="#" class="social-icon">💼</a>
-                <a href="#" class="social-icon">📷</a>
-            </div>
-        </div>
     </section>
 
-    <!-- CONTACT INFO SECTION -->
-    <section class="contact-info-section">
-        <h3>Contact Information</h3>
-        <div class="contact-info-container">
-            <a href="mailto:truc.vanlarrytt@hcmut.edu.vn" class="contact-item" title="Email">
-                <span class="contact-icon">✉️</span>
-                <span class="contact-text">truc.vanlarrytt@hcmut.edu.vn</span>
-            </a>
-            <a href="tel:+84941056086" class="contact-item" title="Phone">
-                <span class="contact-icon">📱</span>
-                <span class="contact-text">(+84) 941 056 086</span>
-            </a>
-            <a href="https://linkedin.com/in/larryvan" target="_blank" rel="noopener noreferrer" class="contact-item" title="LinkedIn">
-                <span class="contact-icon">💼</span>
-                <span class="contact-text">LinkedIn</span>
-            </a>
-            <a href="https://github.com/LarryVan-engin" target="_blank" rel="noopener noreferrer" class="contact-item" title="GitHub">
-                <span class="contact-icon">🐙</span>
-                <span class="contact-text">GitHub</span>
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=100038020250962&mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer" class="contact-item" title="Facebook">
-                <span class="contact-icon">🅕</span>
-                <span class="contact-text">Facebook</span>
-            </a>
-        </div>
-    </section>
 
-    <footer class="footer-section">
-        <b>
-        © 2025 Designed By Larry Van — All rights reserved.<br>
-        All infomations please contact me at my contacts.
-        </b>
-    </footer>
+  <!-- Floating Chat Button -->
+  <div id="chat-btn" class="chat-btn glass">💬</div>
 
-    <!-- SCRIPTS -->
-    <script src="scripts.js"></script>
+  <!-- FOOTER -->
+  <footer class="footer-section">
+    © 2025 Designed by Larry Van — All rights reserved.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="scripts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init("8RibwP3-gnYbSCqyj");</script>
+
+  <script src="https://unpkg.com/scrollreveal"></script>
 </body>
-
-<div id="scroll-progress"></div>
 </html>

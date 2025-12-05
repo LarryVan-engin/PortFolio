@@ -59,7 +59,7 @@ const projectsData = [
         <li>Fast detection under multiple lighting conditions with <strong>YOLOv12 + Tesseract OCR</strong>.</li>
         <li>MQTT communication between edge devices and the server for stable data exchange.</li>
         <li>Automated logging with timestamps, captured images, and vehicle classification.</li>
-        <li>Recognition speed: <strong><1.2s per frame</strong>, accuracy >95%.</li>
+        <li>Recognition speed: <strong>&lt; 1.2s per frame</strong>, accuracy &gt; >95%.</li>
       </ul>
       <p>
         <em>Ideal for smart parking and intelligent community management systems where automation,
@@ -69,7 +69,7 @@ const projectsData = [
   },
   {
     id: 3,
-    category: "Smart Warehouse",
+    category: "IoT",
     title: "Smart Warehouse System IoT",
     description: "A project to build a smart warehouse system with Raspberry Pi.",
     image: "./images/IoT.png",
@@ -270,6 +270,7 @@ function initThemeToggle() {
 /* ===============================
    CHAT BUTTON
 ================================ */
+
 document.getElementById("chat-btn").addEventListener("click", () => {
   const choice = confirm("💬 Message via Telegram (OK) or Discord (Cancel)?");
   if (choice)
@@ -277,6 +278,14 @@ document.getElementById("chat-btn").addEventListener("click", () => {
   else
     window.open("https://discord.gg/YourDiscordInvite", "_blank");
 });
+
+const chatBtn = document.getElementById("chat-btn");
+if (chatBtn) {
+  chatBtn.addEventListener("click", () => {
+    const choice = confirm("💬 Message via Telegram (OK) or Discord (Cancel)?");
+    window.open(choice ? "https://t.me/YourTelegramUsername" : "https://discord.gg/YourDiscordInvite", "_blank");
+  });
+}
 
 /* ===============================
    FLOATING PARTICLE LIGHTS
@@ -346,6 +355,106 @@ function initFadeSections() {
   document.querySelectorAll('.fade-section').forEach(sec => observer.observe(sec));
 }
 
+window.addEventListener("load", () => {
+  const loader = document.getElementById("page-loader");
+  if (!loader) return;
+
+  loader.classList.add("hide");
+  setTimeout(() => loader.remove(), 450);
+});
+
+function initBrandOrbit() {
+  const brand = document.querySelector(".brand");
+  if (!brand) return;
+
+  const ufo = brand.querySelector(".ufo");
+  const p1 = brand.querySelector(".planet.p1");
+  const p2 = brand.querySelector(".planet.p2");
+  const p3 = brand.querySelector(".planet.p3");
+  if (!ufo || !p1 || !p2 || !p3) return;
+
+  let t = 0;
+  const speed = 0.0035;
+
+  function tick() {
+    const rect = brand.getBoundingClientRect();
+
+    const pad = 7;
+    const w = rect.width + pad * 2;
+    const h = rect.height + pad * 2;
+
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    const rx = w / 2 - 10;
+    const ry = h / 2 - 10;
+
+    t = (t + speed) % 1;
+
+    const ang = t * Math.PI * 2;
+    const x = cx + rx * Math.cos(ang);
+    const y = cy + ry * Math.sin(ang);
+
+    ufo.style.left = `${x}px`;
+    ufo.style.top = `${y}px`;
+
+    const rot = ang + Math.PI / 2;
+    ufo.style.transform = `translate(-50%, -50%) rotate(${rot}rad)`;
+
+    const ang1 = ((t * 1.15) + 0.22) * Math.PI * 2;
+    p1.style.left = `${cx + (rx - 16) * Math.cos(ang1)}px`;
+    p1.style.top  = `${cy + (ry - 16) * Math.sin(ang1)}px`;
+
+    const ang2 = ((t * 0.82) + 0.58) * Math.PI * 2;
+    p2.style.left = `${cx + (rx + 6) * Math.cos(ang2)}px`;
+    p2.style.top  = `${cy + (ry + 6) * Math.sin(ang2)}px`;
+
+    const ang3 = ((t * 1.45) + 0.86) * Math.PI * 2;
+    p3.style.left = `${cx + (rx - 28) * Math.cos(ang3)}px`;
+    p3.style.top  = `${cy + (ry - 28) * Math.sin(ang3)}px`;
+
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+}
+
+
+function initContactForm() {
+  const form = document.getElementById("contact-form");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const btn = form.querySelector("button[type='submit']");
+    const oldText = btn ? btn.textContent : "";
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Sending...";
+    }
+
+    try {
+      // BẮT BUỘC: thay 2 giá trị này bằng đúng SERVICE_ID và TEMPLATE_ID của bạn trên EmailJS
+      const SERVICE_ID = "YOUR_SERVICE_ID";
+      const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form);
+
+      alert("✅ Sent! I’ll get back to you soon.");
+      form.reset();
+    } catch (err) {
+      console.error("EmailJS error:", err);
+      alert("❌ Send failed. Please try again later.");
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = oldText;
+      }
+    }
+  });
+}
+
 /* ===============================
    INIT EVERYTHING
 ================================ */
@@ -354,6 +463,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initThemeToggle();
   initParticles();
   initFadeSections();
+  initBrandOrbit();
+  initContactForm();
 
   // ScrollReveal animations
   if (window.ScrollReveal) {

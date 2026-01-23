@@ -53,14 +53,18 @@ const projectsData = [
       </p>
       <p>
         <img src="./images/modelYOLO.jpg" alt="YOLOv12 Detection">
-        <img src="./images/WebAIYOLO.png" alt="OCR Result">
+        <img src="./images/WebTrafficAI.png" alt="OCR Result">
       </p>
       <ul>
-        <li>Fast detection under multiple lighting conditions with <strong>YOLOv12 + Tesseract OCR</strong>.</li>
+        <li>Fast detection under multiple lighting conditions with <strong>YOLOv12 + EasyOCR</strong>.</li>
         <li>MQTT communication between edge devices and the server for stable data exchange.</li>
         <li>Automated logging with timestamps, captured images, and vehicle classification.</li>
         <li>Recognition speed: <strong>&lt; 1.2s per frame</strong>, accuracy &gt; >95%.</li>
       </ul>
+      <p>
+        <img src="./images/OCR.png" alt="OCR Plate">
+        <img src="./images/Diagram_1.png" alt="System Diagram">
+      </p>
       <p>
         <em>Ideal for smart parking and intelligent community management systems where automation,
         speed, and reliability are crucial.</em>

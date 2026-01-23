@@ -440,8 +440,8 @@ function initContactForm() {
 
     try {
       // BẮT BUỘC: thay 2 giá trị này bằng đúng SERVICE_ID và TEMPLATE_ID của bạn trên EmailJS
-      const SERVICE_ID = "YOUR_SERVICE_ID";
-      const TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+      const SERVICE_ID = "service_q7n3ybj";
+      const TEMPLATE_ID = "template_r1f5vxu";
 
       await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form);
 

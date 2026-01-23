@@ -48,8 +48,8 @@ const projectsData = [
     details: `
       <p>
         An <strong>AI and IoT-based system</strong> for automating vehicle access control via
-        <strong>real-time license plate recognition</strong>. The ESP32-CAM captures images at entry/exit points,
-        sends them to a YOLOv12-powered backend for detection, and uses <strong>OCR</strong> to extract plate numbers.
+        <strong>real-time license plate recognition</strong>. The Camera-sensor captures images at entry/exit points,
+        sends them to a YOLOv12-powered backend for detection processing, and uses <strong>EasyOCR</strong> to extract plate numbers.
       </p>
       <p>
         <img src="./images/modelYOLO.jpg" alt="YOLOv12 Detection">
@@ -60,6 +60,9 @@ const projectsData = [
         <li>MQTT communication between edge devices and the server for stable data exchange.</li>
         <li>Automated logging with timestamps, captured images, and vehicle classification.</li>
         <li>Recognition speed: <strong>&lt; 1.2s per frame</strong>, accuracy &gt; >95%.</li>
+        <li>Web dashboard for monitoring, history review, and system management.</li>
+        <li>Supports various vehicle types: cars, trucks, motorcycles.</li>
+        <li>Line and zone violation.</li>
       </ul>
       <p>
         <img src="./images/OCR.png" alt="OCR Plate">
@@ -106,7 +109,7 @@ const projectsData = [
   {
     id: 4,
     category: "Web",
-    title: "Portfolio V1",
+    title: "Portfolio",
     description: "Personal portfolio version 1.5",
     image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&q=80",
     gallery: ["https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&q=80"],
@@ -220,6 +223,47 @@ function attachCardClicks() {
       document.body.classList.remove("modal-open");
     }
   });
+}
+
+/* ===============================
+   Typing Effect for Header
+================================ */
+function initTypingEffect() {
+  const typingElement = document.getElementById("typing");
+  if (!typingElement) return;
+
+  const texts = ["AI Engineer", "IoT Developer", "Web Designer", "Tech Enthusiast"];
+  let textIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  let typeSpeed = 100;
+
+  function type() {
+    const currentText = texts[textIndex];
+    
+    if (isDeleting) {
+      typingElement.textContent = currentText.substring(0, charIndex - 1);
+      charIndex--;
+      typeSpeed = 50;
+    } else {
+      typingElement.textContent = currentText.substring(0, charIndex + 1);
+      charIndex++;
+      typeSpeed = 100; 
+    }
+
+    if (!isDeleting && charIndex === currentText.length) {
+      isDeleting = true;
+      typeSpeed = 2000; 
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      textIndex = (textIndex + 1) % texts.length;
+      typeSpeed = 500;
+    }
+
+    setTimeout(type, typeSpeed);
+  }
+
+  type();
 }
 
 /* ===============================
@@ -469,6 +513,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initFadeSections();
   initBrandOrbit();
   initContactForm();
+  initTypingEffect();
 
   // ScrollReveal animations
   if (window.ScrollReveal) {

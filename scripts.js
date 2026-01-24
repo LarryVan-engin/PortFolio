@@ -633,6 +633,152 @@ function initContactForm() {
   });
 }
 
+function initFloatingImages() {
+  const container = document.querySelector('.floating-images');
+  if (!container) return;
+
+  const imageSources = [
+    'https://github.com/user-attachments/assets/0b9a5396-906b-4246-bf1e-9d9d7d2d3414',
+    'https://github.com/user-attachments/assets/635a2835-0478-4995-a633-92a2dce07d79',
+    'https://github.com/user-attachments/assets/9de9165b-be6d-413e-a33b-66460eda22f0',
+    'https://github.com/user-attachments/assets/e39e1293-c3d1-4f35-953c-b827f076a59b',
+    'https://github.com/user-attachments/assets/c978c779-d08d-47a5-894e-f33482cb069a',
+    'https://github.com/user-attachments/assets/f237ceec-1613-4fdf-aac3-a13008866808',
+    'https://github.com/user-attachments/assets/20302b7f-14b4-4394-9c93-14b82d467424',
+    'https://github.com/user-attachments/assets/98089307-65a6-4be7-be59-21a81b266d99',
+    'https://github.com/user-attachments/assets/ee962137-3cf2-4b55-a56b-928fc4a9e2d7',
+    'https://github.com/user-attachments/assets/a1aec806-f443-402c-8c4d-4022f8a7447d',
+    'https://github.com/user-attachments/assets/2adce9cf-4255-4f6e-9c91-b2a6fcf7ee13'
+  ];
+
+  /* ===============================
+     CONFIG
+  ================================ */
+  const isMobile = window.innerWidth < 768;
+
+  const MAX_IMAGES = isMobile ? 3 : 6;
+  const MAX_LIFE   = isMobile ? 3800 : 5000;
+  const FADE_TIME  = 900;
+
+  const MIN_SIZE = isMobile ? 150 : 260;
+  const MAX_SIZE = isMobile ? 240 : 520;
+
+  const MOVE_SPEED   = isMobile ? 0.05 : 0.1;
+  const SCROLL_FACTOR = isMobile ? 0.15 : 0.35;
+
+  const rand = (a, b) => a + Math.random() * (b - a);
+
+  let scrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    scrollY = window.scrollY;
+  }, { passive: true });
+
+  function viewport() {
+    return { w: window.innerWidth, h: window.innerHeight };
+  }
+
+  /* ===============================
+     CORE SPAWN
+  ================================ */
+  function spawnImage({ x, y, force = false } = {}) {
+    if (container.children.length >= MAX_IMAGES && !force) return;
+
+    const { w, h } = viewport();
+
+    const img = document.createElement('img');
+    img.className = 'floating-image';
+    img.src = imageSources[Math.floor(Math.random() * imageSources.length)];
+
+    img.loading = "eager";
+    img.decoding = "async";
+    img.fetchPriority = "high";
+
+    const size = rand(MIN_SIZE, MAX_SIZE);
+    img.style.width = `${size}px`;
+
+    if (x == null || y == null) {
+      const edge = Math.floor(Math.random() * 4);
+      if (edge === 0) { x = -size; y = rand(0, h); }
+      if (edge === 1) { x = w + size; y = rand(0, h); }
+      if (edge === 2) { x = rand(0, w); y = -size; }
+      if (edge === 3) { x = rand(0, w); y = h + size; }
+    }
+
+    const dx = rand(-MOVE_SPEED, MOVE_SPEED);
+    const dy = rand(-MOVE_SPEED, MOVE_SPEED);
+    const rot = rand(-18, 18);
+    const baseScale = rand(0.85, 1.05);
+
+    img.style.left = `${x}px`;
+    img.style.top  = `${y}px`;
+    img.style.transform = `scale(0.75) rotate(${rot}deg)`;
+
+    container.appendChild(img);
+
+    requestAnimationFrame(() => {
+      img.classList.add('show');
+      img.style.transform = `scale(${baseScale}) rotate(${rot}deg)`;
+    });
+
+    let life = 0;
+    let last = performance.now();
+
+    function animate(now) {
+      const dt = now - last;
+      last = now;
+
+      const scrollOffset = scrollY * SCROLL_FACTOR;
+
+      x += dx * dt;
+      y += dy * dt + scrollOffset * 0.002;
+
+      img.style.transform = `
+        translate(${x}px, ${y}px)
+        scale(${baseScale})
+        rotate(${rot}deg)
+      `;
+
+      life += dt;
+      if (life < MAX_LIFE || force) {
+        requestAnimationFrame(animate);
+      } else {
+        img.style.transform = `
+          translate(${x}px, ${y}px)
+          scale(0.9)
+          rotate(${rot}deg)
+        `;
+        img.classList.remove('show');
+        setTimeout(() => img.remove(), FADE_TIME);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  /* ===============================
+     AUTO SPAWN LOOP
+  ================================ */
+  function spawnLoop() {
+    spawnImage();
+    setTimeout(spawnLoop, rand(350, 1800));
+  }
+  spawnLoop();
+
+  /* ===============================
+     CLICK TO SPAWN
+  ================================ */
+  window.addEventListener('pointerdown', (e) => {
+    // tránh click vào button / link
+    if (e.target.closest('a, button, input, textarea')) return;
+
+    spawnImage({
+      x: e.clientX,
+      y: e.clientY,
+      force: true
+    });
+  }, { passive: true });
+}
+
 /* ===============================
    INIT EVERYTHING
 ================================ */
@@ -644,6 +790,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initBrandOrbit();
   initContactForm();
   initTypingEffect();
+  initFloatingImages();
 
   // ScrollReveal animations
   if (window.ScrollReveal) {

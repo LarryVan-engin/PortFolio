@@ -10,8 +10,8 @@ const projectsData = [
     image: "./images/ban3.gif",
     gallery: ["./images/ban3.gif"],
     technologies: ["Django", "DICOM", "U-Net"],
-    github: "https://github.com/LarryVan-engin",
-    demo: "#",
+    github: "https://github.com/LarryVan-engin/AI_website_for_DICOM",
+    demo: "https://github.com/LarryVan-engin/AI_website_for_DICOM/tree/main/website/appweb",
     details: `
       <p>
         This project applies <strong>Deep Learning for medical image segmentation</strong> using the
@@ -43,8 +43,8 @@ const projectsData = [
     image: "./images/Traffic.png",
     gallery: ["./images/Traffic.png"],
     technologies: ["YOLOv12", "OpenCV", "Python", "EasyOCR", "DeepSort", "SORT", "Bytetrack", "HTML", "CSS", "JavaScript"],
-    github: "https://github.com/LarryVan-engin",
-    demo: "#",
+    github: "https://github.com/LarryVan-engin/DCLP",
+    demo: "https://github.com/LarryVan-engin/DCLP/tree/main/main_code/result",
     details: `
       <p>
         An <strong>AI and IoT-based system</strong> for automating vehicle access control via
@@ -66,7 +66,7 @@ const projectsData = [
       </ul>
       <p>
         <img src="./images/OCR.png" alt="OCR Plate">
-        <img src="./images/Diagram_1.png" alt="System Diagram">
+        <img src="./images/Violation.png" alt="Violation Detection">
       </p>
       <p>
         <em>Ideal for smart parking and intelligent community management systems where automation,
@@ -82,8 +82,8 @@ const projectsData = [
     image: "./images/IoT.png",
     gallery: ["./images/IoT.png"],
     technologies: ["React", "Node.js", "MongoDB", "Raspberry Pi", "IoT", "Sensors", "MQTT", "Docker"],
-    github: "https://github.com/LarryVan-engin",
-    demo: "#",
+    github: "https://github.com/LarryVan-engin/Project_IoT_WareHouse-main",
+    demo: "https://github.com/LarryVan-engin/Project_IoT_WareHouse-main/blob/main/README.md",
     details: `
       <p>
         A complete <strong>IoT-based warehouse management system</strong> designed for real-time monitoring
@@ -111,11 +111,11 @@ const projectsData = [
     category: "Web",
     title: "Portfolio",
     description: "Personal portfolio version 1.5",
-    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&q=80",
-    gallery: ["https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&q=80"],
+    image: "./images/Portfolio.png",
+    gallery: ["./images/Portfolio.png","./images/contactpanel.png"],
     technologies: ["HTML", "CSS", "JavaScript"],
-    github: "https://github.com/LarryVan-engin",
-    demo: "#",
+    github: "https://github.com/LarryVan-engin/PortFolio",
+    demo: "https://drive.google.com/file/d/15eFYCMM8xTv9SXEDkOce881xpSOFK2B2/view?usp=drive_link",
     details: `
       <p>
         The initial version of my personal portfolio, built purely with <strong>HTML, CSS, and JavaScript</strong>.
@@ -126,6 +126,136 @@ const projectsData = [
         <li>Fully responsive static design for all screen sizes.</li>
         <li>Lightweight animations and scroll effects.</li>
         <li>Optimized SEO and accessibility structure.</li>
+      </ul>
+      <p>
+        The design emphasized simplicity and user experience, setting the stage for future enhancements.
+        Its also contains the contact form version 1 using EmailJS service.
+      </p>
+      <p>
+        <img src="./images/contactpanel.png" alt="Contact Section">
+        <img src="https://github.com/user-attachments/assets/ae53c75e-1312-4697-b3a9-b61698d0fdf2" alt="EmailJS Management">
+      </p>
+      <p>
+        <em>Version 1 served as the cornerstone for evolving my web design philosophy — blending creativity and performance.</em>
+        Click Live demo to see my CV and project showcase in my first portfolio version.
+      </p>
+    `
+  },
+    {
+    id: 5,
+    category: "SMTP",
+    title: "CHICOM SMTP Server",
+    description: "Website for user management and UI for commerce.",
+    image: "https://github.com/user-attachments/assets/cc8cdc69-a7a1-45ec-a99f-684e2950e628",
+    gallery: ["https://github.com/user-attachments/assets/cc8cdc69-a7a1-45ec-a99f-684e2950e628","https://github.com/user-attachments/assets/da71f60e-34a7-4c35-82a2-0980483a6c5e",],
+    technologies: ["HTML", "CSS", "JavaScript", "Python", "Flask", "SMTP"],
+    github: "https://github.com/LarryVan-engin/IOE/tree/main/CHICOM",
+    demo: "https://github.com/LarryVan-engin/IOE/blob/main/CHICOM/2025-10-20%2020-09-54.mp4",
+    details: `
+      <p>
+        <strong>HỆ THỐNG WEB — USER / ADMIN MANAGEMENT & PAYMENT FLOW</strong>
+      </p>
+      <ul style="list-style-type: none; padding-left: 0;">
+        
+        <li style="margin-bottom: 20px;">
+            <h3>⚙️ 1. CẤU TRÚC THƯ MỤC DỰ ÁN</h3>
+            <p><strong>📁 back_end/</strong> (Node.js + Express + MongoDB + Email SMTP)</p>
+            <pre style="background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; font-size: 0.9em;">
+              back_end/
+              │
+              ├── .env                  # Biến môi trường (DB, JWT, SMTP)
+              ├── index.js              # File chính khởi động server
+              ├── test_mail.js          # Script kiểm tra gửi mail SMTP
+              │
+              ├── admin_model/          # Controllers logic
+              │   ├── authController.js       # Auth logic
+              │   ├── middlewareController.js # JWT & Admin check
+              │   └── userController.js       # CRUD user
+              │
+              ├── routes/               # API Endpoints
+              │   ├── auth.js           # /v1/auth
+              │   ├── user.js           # /v1/user
+              │   ├── order.js          # /v1/order
+              │
+              ├── user_model/ & models/ # Mongoose Schemas (User, Order)
+              └── utils/mailer.js       # Nodemailer config
+            </pre>
+            <p><strong>🌐 front_end/</strong> (HTML + JS thuần)</p>
+            <pre style="background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; font-size: 0.9em;">
+              front_end/
+              │
+              ├── admin.html            # Dashboard Admin
+              ├── user_management.html  # Quản lý user
+              ├── payment_management.html # Quản lý đơn hàng
+              ├── user_dashboard.html   # Dashboard User
+              ├── payment.html          # Trang thanh toán
+              ├── login.html / register.html
+              └── js/auth.js            # Xử lý Logic Client
+            </pre>
+        </li>
+
+        <li style="margin-bottom: 20px;">
+            <h3>2. WORKFLOW — LUỒNG HOẠT ĐỘNG</h3>
+            <p>Hệ thống hoạt động theo cơ chế xác thực chặt chẽ qua Email:</p>
+            <ul>
+                <li><strong>Đăng ký:</strong> User đăng ký -> Server lưu "pending" -> Gửi mail báo Admin.</li>
+                <li><strong>Duyệt User:</strong> Admin vào trang quản lý -> Accept -> User nhận mail "Active" -> Mới được đăng nhập.</li>
+                <li><strong>Thanh toán:</strong> User mua hàng -> Xác nhận thanh toán -> Admin nhận mail -> Admin duyệt đơn -> User nhận OTP.</li>
+            </ul>
+        </li>
+
+        <li style="margin-bottom: 20px;">
+            <h3>🔑 3. CẤU HÌNH (.ENV)</h3>
+            <p>Sử dụng App Password của Google cho SMTP:</p>
+            <pre style="background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; font-size: 0.9em;">
+              MONGODB_URL=mongodb+srv://...
+              SECRETKEY=your_jwt_secret
+              SMTP_HOST=smtp.gmail.com
+              SMTP_PORT=465
+              SMTP_USER=Sender@gmail.com
+              SMTP_PASS=ddfmvevxiqelivva  <-- (App Password 16 ký tự)
+              ADMIN_EMAIL=admin@hcmut.edu.vn
+            </pre>
+        </li>
+
+        <li style="margin-bottom: 30px;">
+            <h3>GIAO DIỆN & TEST CASE</h3>
+            
+            <p><strong>1. Đăng nhập & Đăng ký:</strong></p>
+            <p>Giao diện Login:</p>
+            <img src="https://github.com/user-attachments/assets/f25143fe-f5c1-4afe-881e-0eebd0d9730d" alt="Login Screen" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            
+            <p>Giao diện Đăng ký (Validate dữ liệu chặt chẽ):</p>
+            <img src="https://github.com/user-attachments/assets/39d0e389-438c-4f91-b418-6d8ab628a983" alt="Register Screen" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            
+            <p>Thông báo đăng ký thành công:</p>
+            <img src="https://github.com/user-attachments/assets/34e5c40d-365d-4d72-ba1f-f24b0bb93241" alt="Success Register" style="width: 100%; max-width: 400px; height: auto; border-radius: 8px; margin-bottom: 10px;">
+
+            <p><strong>2. Cơ chế duyệt User:</strong></p>
+            <p>Khi chưa được Admin duyệt, User không thể đăng nhập:</p>
+            <img src="https://github.com/user-attachments/assets/e7498e59-9977-4255-9bf0-0c2aafc09f9f" alt="Login Failed Pending" style="width: 100%; max-width: 500px; height: auto; border-radius: 8px; margin-bottom: 10px;">
+            
+            <p>Email thông báo gửi về Admin:</p>
+            <img src="https://github.com/user-attachments/assets/b199a4ca-ba34-4a62-a97a-9096af0f0bd0" alt="Email to Admin" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px;">
+
+            <p><strong>3. Admin Dashboard:</strong></p>
+            <p>Admin quản lý danh sách User (Approve/Reject):</p>
+            <img src="https://github.com/user-attachments/assets/4195ae0f-d6f0-4393-acac-480cf47e13b0" alt="Admin User Management" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px;">
+            
+            <p><strong>4. Luồng thanh toán (Payment Flow):</strong></p>
+            <p>User thực hiện thanh toán và xác nhận:</p>
+            <img src="https://github.com/user-attachments/assets/23f8f3fa-5917-4d46-9314-f1bbeceef66e" alt="User Payment" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px;">
+            
+            <p>Admin nhận Email có đơn hàng mới:</p>
+            <img src="https://github.com/user-attachments/assets/26530641-deae-4495-bdfd-c32a332f47b1" alt="Email Order" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px;">
+            
+            <p>Admin xác nhận đơn hàng trên hệ thống:</p>
+            <img src="https://github.com/user-attachments/assets/c68f0442-17df-482e-8023-6c4771cd78c0" alt="Admin Approve Order" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px;">
+            
+            <p>User nhận được Email kèm mã OTP xác thực:</p>
+            <img src="https://github.com/user-attachments/assets/b5f09253-f3c2-42ec-a5cc-5257717b54a6" alt="OTP Email" style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px;">
+        </li>
+
       </ul>
       <p>
         <em>Version 1 served as the cornerstone for evolving my web design philosophy — blending creativity and performance.</em>

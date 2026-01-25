@@ -102,6 +102,9 @@ const projectsData = [
         <li>Expandable architecture for cloud or large-scale logistics integration.</li>
       </ul>
       <p>
+      <img src="https://github.com/user-attachments/assets/20302b7f-14b4-4394-9c93-14b82d467424" alt="Team Image">
+      </p>
+      <p>
         <em>Developed as a scalable IoT ecosystem enabling efficient, intelligent warehouse automation.</em>
       </p>
     `
@@ -597,7 +600,6 @@ function initBrandOrbit() {
   requestAnimationFrame(tick);
 }
 
-
 function initContactForm() {
   const form = document.getElementById("contact-form");
   if (!form) return;
@@ -613,17 +615,16 @@ function initContactForm() {
     }
 
     try {
-      // BẮT BUỘC: thay 2 giá trị này bằng đúng SERVICE_ID và TEMPLATE_ID của bạn trên EmailJS
       const SERVICE_ID = "service_q7n3ybj";
       const TEMPLATE_ID = "template_r1f5vxu";
 
       await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form);
 
-      alert("✅ Sent! I’ll get back to you soon.");
+      alert("Sent! I’ll get back to you soon.");
       form.reset();
     } catch (err) {
       console.error("EmailJS error:", err);
-      alert("❌ Send failed. Please try again later.");
+      alert("Send failed. Please try again later.");
     } finally {
       if (btn) {
         btn.disabled = false;
@@ -790,7 +791,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initBrandOrbit();
   initContactForm();
   initTypingEffect();
-  initFloatingImages();
+  // initFloatingImages();
 
   // ScrollReveal animations
   if (window.ScrollReveal) {

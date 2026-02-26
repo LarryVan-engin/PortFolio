@@ -365,7 +365,7 @@ function initTypingEffect() {
   const typingElement = document.getElementById("typing");
   if (!typingElement) return;
 
-  const texts = ["AI Engineer", "IoT Developer", "Web Designer", "Tech Enthusiast"];
+  const texts = ["AI Engineer", "IoT Developer", "Edge AI Developer", "Tech Enthusiast"];
   let textIndex = 0;
   let charIndex = 0;
   let isDeleting = false;

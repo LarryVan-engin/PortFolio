@@ -60,11 +60,11 @@
       <ul class="cv-highlights">
         <li>
           <a 
-            href="https://drive.google.com/file/d/1OL7ETRYkoiDL02zWkUTgjXC8T1IDy4Ht/view?usp=sharing" 
+            href="https://drive.google.com/file/d/1xrFNavJ6BhWuu45FcVV39--H8fxgEol7/view?usp=drive_link" 
             target="_blank"
             class="cv-link"
           >
-          🎓 <strong>GPA:</strong> 3.3 / 4.0
+          🎓 <strong>GPA:</strong> 3.4 / 4.0
         </a>
         </li>
 
@@ -72,7 +72,7 @@
           🧠 <strong>Projects:</strong>
           <ul class="cv-sublist">
             <li>AI in DICOM Image Processing</li>
-            <li>Traffic Violation Detection (YOLOv12)</li>
+            <li>Building an AI-based System for Traffic Violation Monitoring and Enforcement</li>
             <li>IoT-based Warehouse Management System</li>
             <li>Chicom User Management & SMTP Server</li>
           </ul>
@@ -84,7 +84,7 @@
       </ul>
 
       <a 
-        href="https://drive.google.com/file/d/1t-Av6tublwjwjBaONb8jXeyBLQjRUYLg/view?usp=sharing" 
+        href="https://drive.google.com/file/d/1lVUrypa09qb4-lfklcFbYORqx5sISQsN/view?usp=drive_link" 
         target="_blank"
         class="cv-link"
       >
@@ -174,6 +174,7 @@
         <div class="modal-links">
           <a id="modal-github" href="#" target="_blank" class="btn glass">🐙 GitHub</a>
           <a id="modal-demo" href="#" target="_blank" class="btn glass">🌐 Live Demo</a>
+          <a id="modal-report" href="#" target="_blank" class="btn glass" style="display: none;">📄 Report</a>
         </div>
       </div>
     </div>
@@ -217,7 +218,12 @@
   <script src="scripts.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>emailjs.init("8RibwP3-gnYbSCqyj");</script>
-
   <script src="https://unpkg.com/scrollreveal"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose' });
+    });
+  </script>
 </body>
 </html>

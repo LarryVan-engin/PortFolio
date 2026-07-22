@@ -1,0 +1,47 @@
+┌────────────────────────────────────────────────────────────────────┐
+│                    ESP32 gửi dữ liệu MQTT                          │
+│  [547034 ms] Published: TVOC=144.0ppb | Actual=1.86 | Predict=1.80 │
+│  [548171 ms] [sensor:263] T=31.1 C  RH=46.9%                       │
+└────────────────────────────────────────────────────────────────────┘
+                                  ↓
+┌────────────────────────────────────────────────────────────────────┐
+│         MQTT Client (backend/mqtt_client.py)                       │
+│  • Subscribe: iaq/node/data                                        │
+│  • Parse với Regex Patterns                                        │
+│    - TVOC=(\d+\.?\d*)\s*ppb                                        │
+│    - Actual=(\d+\.?\d*)                                            │
+│    - T=(\d+\.?\d*)\s*C                                             │
+│    - RH=(\d+\.?\d*)%                                               │
+│  • Validate: đủ TVOC, Actual, Predict?                             │
+│  • Cache: latest temperature/humidity                              │
+└────────────────────────────────────────────────────────────────────┘
+                                  ↓ (Dữ liệu hợp lệ)
+┌────────────────────────────────────────────────────────────────────┐
+│     Database Manager (backend/database_manager.py)                 │
+│  • Save to SQLite: air_quality_logs                                │
+│    - timestamp, tvoc, iaq_actual, iaq_forecast                     │
+│    - temperature, humidity                                         │
+│  • Auto migration (thêm columns nếu cần)                           │
+│  • Count samples (check trigger retrain at 500)                    │
+└────────────────────────────────────────────────────────────────────┘
+                                  ↓
+┌────────────────────────────────────────────────────────────────────┐
+│              Trigger Checks & Processing                           │
+├─────────────────────┬─────────────────┬────────────────────────────┤
+│ Check Retrain       │   API Handler   │  Frontend Update           │
+│ (500 samples?)      │   /api/v1/      │  (Streamlit refresh)       │
+│ ↓ YES               │   latest        │  ↓                         │
+│ Start Retraining    │   history       │  Dashboard shows:          │
+│ (async thread)      │                 │  • Metrics                 │
+│                     │                 │  • Charts & Trends         │
+└─────────────────────┴─────────────────┴────────────────────────────┘
+                                  ↓
+┌────────────────────────────────────────────────────────────────────┐
+│      AI Engine Retraining (ai_engine/retraining_script.py)         │
+│  (Triggered every 500 samples)                                     │
+│  • Extract data from database                                      │
+│  • Normalize: StandardScaler                                       │
+│  • Fine-tune: Epochs=15, LR=0.0001                                 │
+│  • Export: TFLite + C-Header (updates/)                            │
+│  • Ready for OTA update to MCU                                     │
+└────────────────────────────────────────────────────────────────────┘

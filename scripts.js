@@ -12,6 +12,7 @@ const projectsData = [
     technologies: ["Django", "DICOM", "U-Net"],
     github: "https://github.com/LarryVan-engin/AI_website_for_DICOM",
     demo: "https://github.com/LarryVan-engin/AI_website_for_DICOM/tree/main/website/appweb",
+    report: "https://drive.google.com/file/d/1A2Li5Su2k26E1W4q3-dmbDf6HnVJ90cN/view?usp=drive_link",
     details: `
       <p>
         This project applies <strong>Deep Learning for medical image segmentation</strong> using the
@@ -38,39 +39,107 @@ const projectsData = [
   {
     id: 2,
     category: "AI",
-    title: "Traffic Violation Detection System",
+    title: "Building an AI-based System for Traffic Violation Monitoring and Enforcement",
     description: "Detecting traffic violations using computer vision and deep learning.",
-    image: "./images/Traffic.png",
-    gallery: ["./images/Traffic.png"],
+    image: "./images/image_copy.png",
+    gallery: ["./images/Traffic.png", "https://github.com/user-attachments/assets/4bfb9764-5229-4b0a-98f1-8faa8c96d5a3", "https://github.com/user-attachments/assets/64fffa36-ec8f-4cdd-a7b5-05d30db54eb9", "https://github.com/user-attachments/assets/4b2e01b7-d763-4554-b018-1c244330a23e"],
     technologies: ["YOLOv12", "OpenCV", "Python", "EasyOCR", "DeepSort", "SORT", "Bytetrack", "HTML", "CSS", "JavaScript"],
     github: "https://github.com/LarryVan-engin/DCLP",
-    demo: "https://github.com/LarryVan-engin/DCLP/tree/main/main_code/result",
+    demo: "https://drive.google.com/file/d/1puoFPIU1uviGhUIa-fUw7IKpJwujN-NX/view?usp=drive_link",
+    report: "https://drive.google.com/file/d/1uSaXFDV5333S2FOZZ4cQ2px_9pr5GNF-/view?usp=drive_link",
     details: `
       <p>
-        An <strong>AI and IoT-based system</strong> for automating vehicle access control via
-        <strong>real-time license plate recognition</strong>. The Camera-sensor captures images at entry/exit points,
-        sends them to a YOLOv12-powered backend for detection processing, and uses <strong>EasyOCR</strong> to extract plate numbers.
+        Hệ thống <strong>AI Traffic Monitor System</strong> được thiết kế theo mô hình client-server thời gian thực, ứng dụng các mô hình học sâu tiên tiến (YOLOv12) và thuật toán tracking (ByteTrack) để tự động giám sát, phát hiện phương tiện và các hành vi vi phạm luật giao thông.
       </p>
-      <p>
-        <img src="./images/modelYOLO.jpg" alt="YOLOv12 Detection">
-        <img src="./images/WebTrafficAI.png" alt="OCR Result">
-      </p>
+
+      <h3 style="margin-top: 20px; margin-bottom: 15px; color: var(--accent-color);">1. Kiến trúc Hệ thống (Architecture)</h3>
+      <p>Hệ thống được chia làm 3 lớp chính hoạt động đồng bộ:</p>
       <ul>
-        <li>Fast detection under multiple lighting conditions with <strong>YOLOv12 + EasyOCR</strong>.</li>
-        <li>MQTT communication between edge devices and the server for stable data exchange.</li>
-        <li>Automated logging with timestamps, captured images, and vehicle classification.</li>
-        <li>Recognition speed: <strong>&lt; 1.2s per frame</strong>, accuracy &gt; >95%.</li>
-        <li>Web dashboard for monitoring, history review, and system management.</li>
-        <li>Supports various vehicle types: cars, trucks, motorcycles.</li>
-        <li>Line and zone violation.</li>
+        <li><strong>Frontend (UI + Konva + WebSocket):</strong> Giao diện giám sát trực quan, hiển thị video qua luồng MJPEG. Cho phép người dùng vẽ ROI (Region of Interest) động như vạch phạt (line), vùng cấm (polygon) trực tiếp lên màn hình.</li>
+        <li><strong>Backend (FastAPI):</strong> Xử lý luồng stream, quản lý trạng thái hệ thống, và truyền phát dữ liệu (xe, vi phạm, thống kê) qua WebSocket với độ trễ cực thấp.</li>
+        <li><strong>AI Pipeline:</strong> Xử lý nhận diện và theo dõi đối tượng. Tách biệt rõ ràng luồng Vehicle Tracking, Traffic Light Detection, và Plate Detection & OCR.</li>
       </ul>
-      <p>
-        <img src="./images/OCR.png" alt="OCR Plate">
-        <img src="./images/Violation.png" alt="Violation Detection">
-      </p>
-      <p>
-        <em>Ideal for smart parking and intelligent community management systems where automation,
-        speed, and reliability are crucial.</em>
+
+      <h3 style="margin-top: 20px; margin-bottom: 15px; color: var(--accent-color);">2. Luồng xử lý AI & OCR</h3>
+      <div class="mermaid" style="background: transparent; display: flex; justify-content: center; margin: 20px 0;">
+flowchart TD
+    classDef default fill:#1e1e1e,stroke:#00ffcc,stroke-width:1px,color:#d4d4d4,rx:5px,ry:5px;
+    classDef highlight fill:#2d2d2d,stroke:#00ffcc,stroke-width:2px,color:#fff;
+    
+    VD["<div style='text-align:left'><b>Vehicle Detection</b><br/>YOLOv12 + ByteTrack</div>"]:::highlight
+    TL["<div style='text-align:left'><b>Traffic Light Detection</b><br/>YOLOv12 (chu kỳ 3 frames)</div>"]
+    PL["<div style='text-align:left'><b>Plate Detection</b><br/>YOLOv12 (chu kỳ 5 frames)</div>"]
+    OCR["<div style='text-align:left'><b>EasyOCR</b><br/>Nhận dạng biển số</div>"]:::highlight
+    VIO{"Luật Vi Phạm<br/>(Vượt đèn đỏ / Vùng cấm)"}
+    DB[("Database<br/>(SQLite)")]
+    
+    VD --> VIO
+    TL --> VIO
+    VD --> PL
+    PL --> OCR
+    OCR --> DB
+    VIO --> DB
+      </div>
+      <h3 style="margin-top: 20px; margin-bottom: 15px; color: var(--accent-color);">3. Hiệu năng & Tối ưu hóa (Performance)</h3>
+      <div style="display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
+          <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; min-width: 200px; border-left: 4px solid var(--accent-color);">
+              <p style="margin: 0; font-size: 14px; color: #aaa;">Độ chính xác (mAP@0.5)</p>
+              <p style="margin: 5px 0 0; font-size: 16px; font-weight: bold; color: #fff;">Đèn GT: 99.2% | Xe: 97.5%</p>
+          </div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; min-width: 200px; border-left: 4px solid var(--accent-color);">
+              <p style="margin: 0; font-size: 14px; color: #aaa;">Tốc độ trên Edge Kit</p>
+              <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #fff;">~ 35.1 FPS</p>
+          </div>
+          <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; min-width: 200px; border-left: 4px solid var(--accent-color);">
+              <p style="margin: 0; font-size: 14px; color: #aaa;">Thời gian suy luận (Frame vs Crop)</p>
+              <p style="margin: 5px 0 0; font-size: 16px; font-weight: bold; color: #fff;">Giảm từ 32.1ms xuống 28.5ms</p>
+          </div>
+      </div>
+      <p>Bằng việc chuyển từ <strong>suy luận trên toàn khung hình</strong> sang <strong>suy luận trên các vùng ảnh được cắt (Crop)</strong> (chỉ crop mặt đường cho xe, crop góc cao cho đèn), hệ thống đã tiết kiệm được thời gian tính toán và tăng tốc độ lên 1.13 lần (đạt 35.1 FPS trên phần cứng Edge) mà không đánh đổi độ chính xác.</p>
+      
+      <h3 style="margin-top: 20px; margin-bottom: 15px; color: var(--accent-color);">4. Phương pháp Kiểm thử & Giải thuật Chuyên sâu</h3>
+      
+      <details style="background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);">
+        <summary style="font-weight: bold; color: #00ffcc; outline: none;">Xử lý Vi phạm (Line Crossing & Forbidden Zone)</summary>
+        <div style="padding-top: 10px;">
+            <p>Hệ thống bắt lỗi thông qua 2 cơ chế chính:</p>
+            <ul>
+                <li><strong>Cán vạch (Line Crossing):</strong> Kiểm tra giao cắt giữa quỹ đạo của phương tiện (từ <code>prev_center</code> đến <code>curr_center</code>) với đường ROI "vạch phạt". Áp dụng cooldown 2.0s để tránh phạt lặp.</li>
+                <li><strong>Vào vùng cấm (Forbidden Zone):</strong> Ứng dụng giải thuật Point-in-Polygon. Bắt lỗi theo "edge-trigger" (chỉ ghi nhận khi vừa chuyển trạng thái từ ngoài vào trong vùng cấm).</li>
+            </ul>
+            <p>Qua đánh giá (như hình bên dưới), nhóm đã chọn <strong>tâm của bounding box</strong> làm điểm đại diện phương tiện. So với điểm cạnh trên hoặc dưới, tâm bbox phản ánh đúng nhất vị trí thực tế của xe do góc nhìn từ trên cao của camera an ninh.</p>
+            <p style="text-align: center;"><img src="https://github.com/user-attachments/assets/4b2e01b7-d763-4554-b018-1c244330a23e" alt="Bounding Box center analysis" style="max-width: 100%; border-radius: 5px;"></p>
+        </div>
+      </details>
+
+      <details style="background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);">
+        <summary style="font-weight: bold; color: #00ffcc; outline: none;">Vạch dừng ảo & Phân làn Data-driven</summary>
+        <div style="padding-top: 10px;">
+            <p>Để linh hoạt với các đoạn đường vạch kẻ mờ, hệ thống dùng <strong>vạch dừng ảo</strong> (đoạn thẳng cạnh trên của vùng ROI hình thang) thay vì nhận diện vạch đường vật lý.</p>
+            <p>Thuật toán <strong>phân làn data-driven</strong> học cấu trúc làn trực tiếp từ phân bố luồng xe thực tế theo thời gian. Tính năng này đóng vai trò quyết định giúp phát hiện lỗi sai làn, đồng thời hạn chế các cảnh báo sai (false positives).</p>
+            <p style="text-align: center;"><img src="https://github.com/user-attachments/assets/8d154b3a-f5e2-433d-89e4-9b1bff37070a" alt="ROI Line" style="max-width: 100%; border-radius: 5px; margin-top: 10px;"></p>
+        </div>
+      </details>
+
+      <details style="background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);">
+        <summary style="font-weight: bold; color: #00ffcc; outline: none;">Luồng Plate Detection & Tối ưu OCR</summary>
+        <div style="padding-top: 10px;">
+            <p>Khi phát hiện vi phạm tại Edge Node, hệ thống chỉ trích xuất và gửi ảnh phương tiện vi phạm (mã hóa Base64 qua MQTT) về Server, giảm thiểu gánh nặng băng thông.</p>
+            <p>Tại Server Node, ảnh đi qua pipeline tiền xử lý OCR cực kỳ chặt chẽ:</p>
+            <ul>
+                <li>Mở rộng bounding box, đổi ảnh sang Grayscale, áp dụng Adaptive Thresholding và đảo màu nhằm giảm nhiễu.</li>
+                <li>Tự động nhận biết <strong>Biển số 1 dòng</strong> và <strong>Biển số 2 dòng</strong> dựa trên tỷ lệ chiều rộng/cao. Biển 2 dòng sẽ được cắt đôi và OCR tuần tự trên từng dòng.</li>
+                <li><strong>Sửa lỗi theo ngữ cảnh (Contextual Correction):</strong> Ánh xạ các ký tự dễ nhầm lẫn dựa vào định dạng biển số VN (ví dụ: chữ 'O' thành số '0' ở đuôi, số '5' thành chữ 'S' ở cụm seri).</li>
+            </ul>
+            <p style="text-align: center;"><img src="https://github.com/user-attachments/assets/4bfb9764-5229-4b0a-98f1-8faa8c96d5a3" alt="OCR Pipeline" style="max-width: 100%; border-radius: 5px; margin-top: 10px;"></p>
+        </div>
+      </details>
+
+      <h3 style="margin-top: 20px; margin-bottom: 15px; color: var(--accent-color);">5. Đồng bộ WebSocket & Kết xuất Dữ liệu</h3>
+      <p>Sau khi vi phạm được chốt biển số, dữ liệu được Server đẩy tức thời về Dashboard thông qua kết nối <strong>WebSocket</strong>. Giao diện hiển thị realtime loại lỗi, thông tin chủ xe, thời điểm và ảnh bằng chứng. Cuối cùng, người vận hành có thể truy xuất xuất báo cáo dưới dạng CSV / Excel trực tiếp từ cơ sở dữ liệu MongoDB Atlas.</p>
+      
+      <p style="text-align: center; margin-top: 15px;">
+        <img src="https://github.com/user-attachments/assets/64fffa36-ec8f-4cdd-a7b5-05d30db54eb9" alt="Violation Details" style="width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
       </p>
     `
   },
@@ -84,6 +153,7 @@ const projectsData = [
     technologies: ["React", "Node.js", "MongoDB", "Raspberry Pi", "IoT", "Sensors", "MQTT", "Docker"],
     github: "https://github.com/LarryVan-engin/Project_IoT_WareHouse-main",
     demo: "https://github.com/LarryVan-engin/Project_IoT_WareHouse-main/blob/main/README.md",
+    report: "https://drive.google.com/file/d/1qD7J3B2dnhKzwaELuDF2ocNncC20PtLb/view?usp=drive_link",
     details: `
       <p>
         A complete <strong>IoT-based warehouse management system</strong> designed for real-time monitoring
@@ -119,6 +189,7 @@ const projectsData = [
     technologies: ["HTML", "CSS", "JavaScript"],
     github: "https://github.com/LarryVan-engin/PortFolio",
     demo: "https://drive.google.com/file/d/15eFYCMM8xTv9SXEDkOce881xpSOFK2B2/view?usp=drive_link",
+    report: "",
     details: `
       <p>
         The initial version of my personal portfolio, built purely with <strong>HTML, CSS, and JavaScript</strong>.
@@ -154,6 +225,7 @@ const projectsData = [
     technologies: ["HTML", "CSS", "JavaScript", "Python", "Flask", "SMTP"],
     github: "https://github.com/LarryVan-engin/IOE/tree/main/CHICOM",
     demo: "https://github.com/LarryVan-engin/IOE/blob/main/CHICOM/2025-10-20%2020-09-54.mp4",
+    report: "",
     details: `
       <p>
         <strong>HỆ THỐNG WEB — USER / ADMIN MANAGEMENT & PAYMENT FLOW</strong>
@@ -264,6 +336,232 @@ const projectsData = [
         <em>Version 1 served as the cornerstone for evolving my web design philosophy — blending creativity and performance.</em>
       </p>
     `
+  },
+  {
+    id: 6,
+    category: "AI",
+    title: "Edge-AI IAQ Monitoring & Prediction",
+    description: "An Edge-AI system for indoor air quality (IAQ) monitoring and prediction using the Renesas CK-RA6M5 kit.",
+    image: "images/image.png",
+    gallery: [],
+    technologies: ["CK-RA6M5", "ZMOD4410", "TensorFlow Lite", "Azure RTOS", "MQTT"],
+    github: "",
+    demo: "",
+    report: "",
+    details: `
+      <p>
+        <strong>EDGE-AI DRIVEN INDOOR AIR QUALITY (IAQ) MONITORING & PREDICTION SYSTEM</strong>
+      </p>
+      <p>
+        Dự án tập trung giải quyết hạn chế của các hệ thống giám sát không khí truyền thống bằng cách đưa khả năng dự báo lên thiết bị biên (Edge AI). 
+        Hệ thống sử dụng vi điều khiển <strong>Renesas CK-RA6M5 (Arm Cortex®-M33)</strong> và cảm biến <strong>ZMOD4410</strong> để liên tục thu thập nồng độ eCO2 và TVOC, 
+        từ đó chạy suy luận mô hình học sâu (MLP) trực tiếp trên phần cứng để dự báo chỉ số AQI trong tương lai gần.
+      </p>
+      <ul style="list-style-type: none; padding-left: 0;">
+        <li style="margin-bottom: 20px;">
+            <h3> 1. Edge Computing & Real-Time Operating System (RTOS)</h3>
+            <p>Mô hình Multi-Layer Perceptron (MLP) được tối ưu hóa bằng <strong>TensorFlow Lite for Microcontrollers</strong>, mang lại khả năng suy luận tức thời với mức tiêu thụ năng lượng cực thấp và bảo vệ quyền riêng tư người dùng. Hệ điều hành <strong>Azure RTOS</strong> được ứng dụng để quản lý tài nguyên và điều phối đa nhiệm mượt mà giữa việc đọc cảm biến, tính toán AI và truyền tải dữ liệu.</p>
+            
+            <p style="margin-top: 15px; margin-bottom: 10px; font-weight: bold; color: var(--accent-color);">Hình: Lưu đồ giải thuật tổng quát</p>
+            <img alt="Lưu đồ giải thuật tổng quát" src="https://github.com/user-attachments/assets/8c2dc855-f821-4e69-b813-be40b8d7a36e" style="width: 100%; max-width: 600px; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: block; margin: 0 auto 15px;" />
+        </li>
+        <li style="margin-bottom: 20px;">
+            <h3> 2. MLOps Pipeline & Incremental Learning (OTA)</h3>
+            <p>Hệ thống được thiết kế với tư duy MLOps tiên tiến. Dựa trên dữ liệu thu thập được, Server sẽ tự động kích hoạt tiến trình huấn luyện tăng cường (Incremental Learning) nhằm hiệu chỉnh mô hình phù hợp với đặc thù riêng biệt của từng môi trường thực tế (vd: mật độ người, hóa chất nội thất). Trọng số (weights) tối ưu sẽ được cập nhật liên tục xuống thiết bị biên thông qua <strong>Firmware Over-The-Air (OTA)</strong> qua kết nối WiFi, giúp sai số dự đoán (MAE) ngày càng được giảm thiểu.</p>
+
+            <p style="margin-top: 15px; margin-bottom: 10px; font-weight: bold; color: var(--accent-color);">Hình: Lưu đồ AI Inference</p>
+            <img alt="Lưu đồ AI Inference" src="https://github.com/user-attachments/assets/ac05e024-54ab-4d7b-b121-e5c930a8790d" style="width: 100%; max-width: 600px; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: block; margin: 0 auto 15px;" />
+        </li>
+        <li style="margin-bottom: 30px;">
+            <h3> 3. IoT Backend Infrastructure & Visualization</h3>
+            <p>Kiến trúc truyền tải dữ liệu được thiết kế chặt chẽ và mở rộng: thiết bị gửi dữ liệu viễn trắc (telemetry) đến hệ thống phân phối tin nhắn <strong>MQTT Broker</strong> thông qua module ESP32. Phía Backend sử dụng <strong>FastAPI</strong> kết hợp <strong>SQLite</strong> để lưu trữ lịch sử, và trực quan hóa cảnh báo cùng các biểu đồ biến thiên chất lượng không khí theo thời gian thực (Real-time) trên giao diện <strong>Streamlit Dashboard</strong>.</p>
+        </li>
+        
+        <div style="margin-bottom: 30px;">
+            <h3 style="margin-bottom: 15px;"> 4. Lưu đồ quá trình xử lý dữ liệu</h3>
+            <div class="mermaid" style="background: transparent; display: flex; justify-content: center; margin: 20px 0;">
+flowchart TD
+    classDef default fill:#1e1e1e,stroke:#00ffcc,stroke-width:1px,color:#d4d4d4,rx:5px,ry:5px;
+    classDef highlight fill:#2d2d2d,stroke:#00ffcc,stroke-width:2px,color:#fff;
+    
+    ESP["<div style='text-align:left'><b>ESP32 gửi dữ liệu MQTT</b><br/>[547034 ms] Published: TVOC=144.0ppb | Actual=1.86 | Predict=1.80<br/>[548171 ms] [sensor:263] T=31.1 C  RH=46.9%</div>"]:::highlight
+    
+    MQTT["<div style='text-align:left'><b>MQTT Client</b> (backend/mqtt_client.py)<br/>• Subscribe: iaq/node/data<br/>• Parse với Regex Patterns<br/>• Validate: đủ TVOC, Actual, Predict?<br/>• Cache: latest temperature/humidity</div>"]
+    
+    DB["<div style='text-align:left'><b>Database Manager</b> (backend/database_manager.py)<br/>• Save to SQLite: air_quality_logs<br/>• Auto migration (thêm columns nếu cần)<br/>• Count samples (check trigger retrain at 500)</div>"]
+    
+    ESP --> MQTT
+    MQTT -->|Dữ liệu hợp lệ| DB
+    
+    subgraph Processing [Trigger Checks & Processing]
+        direction LR
+        TRG{"Check Retrain<br/>(500 samples?)"}
+        API["<div style='text-align:left'><b>API Handler</b><br/>/api/v1/latest</div>"]
+        FRONT["<div style='text-align:left'><b>Frontend Update</b><br/>(Streamlit refresh)<br/>Dashboard shows Metrics</div>"]
+    end
+    
+    DB --> TRG
+    DB --> API
+    DB --> FRONT
+    
+    AI["<div style='text-align:left'><b>AI Engine Retraining</b> (ai_engine/retraining_script.py)<br/>• Extract data from database<br/>• Normalize: StandardScaler<br/>• Fine-tune: Epochs=15, LR=0.0001<br/>• Export: TFLite + C-Header (updates/)<br/>• Ready for OTA update to MCU</div>"]:::highlight
+    
+    TRG -->|YES| AI
+            </div>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h3 style="margin-bottom: 15px;"> 5. Cách thức đo đạc, thử nghiệm</h3>
+            <ul style="list-style-type: none; padding: 0;">
+                <li style="margin-bottom: 10px; padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; color: var(--accent-color);">➤</span> Sử dụng <strong>Visual Studio Code</strong> để lập trình nhúng (Code C) vào Kit và theo dõi thời gian suy luận (Inference Time).</li>
+                <li style="margin-bottom: 10px; padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; color: var(--accent-color);">➤</span> Thiết kế Dashboard, Broker với <strong>Mosquitto</strong> để xử lý dữ liệu qua giao thức MQTT để hiển thị tổng quát các giá trị được gửi từ Edge đến Server, nhằm theo dõi và tính toán, ước tính, đánh giá các thông số của mô hình.</li>
+                <li style="margin-bottom: 10px; padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; color: var(--accent-color);">➤</span> Sử dụng <strong>Kaggle Notebook</strong> và ngôn ngữ <strong>Python</strong> để huấn luyện framework TensorFlow.</li>
+                <li style="margin-bottom: 10px; padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; color: var(--accent-color);">➤</span> Convert sang định dạng <strong>Lite</strong>, chuyển đổi định dạng Header và kiểm tra sai số MAE trước khi nạp xuống Kit.</li>
+            </ul>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+            <h3 style="margin-bottom: 15px;"> 6. Số liệu đo đạc & Hiệu năng hệ thống</h3>
+            <div style="display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
+                <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; min-width: 200px; border-left: 4px solid var(--accent-color);">
+                    <p style="margin: 0; font-size: 14px; color: #aaa;">Sai số mô hình (MAE)</p>
+                    <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #fff;">&lt; 0.075</p>
+                </div>
+                <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; min-width: 200px; border-left: 4px solid var(--accent-color);">
+                    <p style="margin: 0; font-size: 14px; color: #aaa;">Inference Time (RA6M5)</p>
+                    <p style="margin: 5px 0 0; font-size: 24px; font-weight: bold; color: #fff;">~ 50 ms</p>
+                </div>
+            </div>
+
+            <h5 style="margin-bottom: 10px; color: var(--accent-color);">Bảng 1. Thông số hệ thống</h5>
+            <div style="overflow-x: auto; margin-bottom: 20px;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; background: rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: rgba(255, 255, 255, 0.1);">
+                            <th style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Chỉ số</th>
+                            <th style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Giá trị</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">RAM Usage</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #00ffcc;">~120 KB</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Flash Usage</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #00ffcc;">~350 KB</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px;">Độ trễ truyền WiFi</td>
+                            <td style="padding: 12px 15px; color: #00ffcc;">&lt; 500 ms</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h5 style="margin-bottom: 10px; color: var(--accent-color);">Bảng 2. Đánh giá hiệu năng hệ thống</h5>
+            <div style="overflow-x: auto; margin-bottom: 20px;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; background: rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: rgba(255, 255, 255, 0.1);">
+                            <th style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Metric</th>
+                            <th style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Value</th>
+                            <th style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">MQTT Parse Time</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #00ffcc;">~1ms</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Regex patterns</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Database Insert</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #00ffcc;">~5ms</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">SQLite</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">API Response</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #00ffcc;">&lt;100ms</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Simple queries</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Dashboard Refresh</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #00ffcc;">3s</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Streamlit polling</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Model Inference</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #00ffcc;">~50ms</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">TFLite on RA6M5</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px;">Retrain Trigger</td>
+                            <td style="padding: 12px 15px; color: #00ffcc;">Every 500 samples</td>
+                            <td style="padding: 12px 15px;">~25 minutes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h5 style="margin-bottom: 10px; color: var(--accent-color);">Bảng 3. IAQ UBA Rating Levels on Dashboard</h5>
+            <div style="overflow-x: auto; margin-bottom: 20px;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; background: rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: rgba(255, 255, 255, 0.1);">
+                            <th style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Level</th>
+                            <th style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Range</th>
+                            <th style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Color</th>
+                            <th style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">1</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">1.0 - 1.9</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #4CAF50;">🟢 Green</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Very Good</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">2</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">1.9 - 2.9</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #8BC34A;">🟡 Yellow-Green</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Good</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">3</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">2.9 - 3.9</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #FFEB3B;">🟡 Yellow</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Fair</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">4</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">3.9 - 4.9</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #FF9800;">🟠 Orange</td>
+                            <td style="padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05);">Poor</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px 15px;">5</td>
+                            <td style="padding: 12px 15px;">4.9 - 5.0</td>
+                            <td style="padding: 12px 15px; color: #F44336;">🔴 Red</td>
+                            <td style="padding: 12px 15px;">Very Poor</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h5 style="margin-bottom: 15px;">Hình 8. Sơ đồ biến đổi LOSS và MAE</h5>
+            <div style="background: rgba(255,255,255,0.03); padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent-color); position: relative;">
+                <p style="margin: 0; font-style: italic; line-height: 1.6;">
+                    <strong style="color: var(--accent-color);">Đánh giá chung:</strong> Khi đường Train Loss và Validation Loss cùng giảm dần đến một ngưỡng nhất định rồi bắt đầu đi ngang (flatten out) thì chứng tỏ một dấu hiệu tích cực trong quá trình training model. Trong Machine Learning, đây là hiện tượng <strong>Sự hội tụ (Convergence)</strong>. Với mô hình IAQ, chỉ số MAE giảm đến mức thấp nhất là khoảng 0.25 và không giảm về 0 bởi vì mô hình AI dự đoán lúc nào cũng có sai số, không hoàn toàn chính xác tuyệt đối.
+                </p>
+            </div>
+        </div>
+      </ul>
+      <p>
+        <em>Dự án là minh chứng rõ nét cho năng lực làm chủ và tích hợp trọn vẹn toàn bộ chu trình phát triển hệ thống nhúng thông minh: từ kiến trúc phần cứng vi điều khiển Arm, lập trình hệ điều hành RTOS, xây dựng luồng dữ liệu IoT (Backend/Frontend), cho đến việc thiết kế và triển khai mô hình Edge AI ứng dụng thực tiễn.</em>
+      </p>
+    `
   }
 ];
 
@@ -314,6 +612,7 @@ function attachCardClicks() {
   const modalGallery = document.getElementById("modal-gallery");
   const modalGitHub = document.getElementById("modal-github");
   const modalDemo = document.getElementById("modal-demo");
+  const modalReport = document.getElementById("modal-report");
   const closeBtn = document.querySelector(".close-btn");
 
   cards.forEach(card => {
@@ -327,6 +626,17 @@ function attachCardClicks() {
       modalTitle.textContent = project.title;
       modalImg.src = project.image;
       modalDesc.innerHTML = project.details;
+      
+      // Trigger Mermaid render for dynamic content
+      setTimeout(() => {
+        if (window.mermaid) {
+          try {
+            mermaid.init(undefined, modalDesc.querySelectorAll('.mermaid'));
+          } catch (e) {
+            console.error('Mermaid error:', e);
+          }
+        }
+      }, 50);
 
       modalGallery.innerHTML = "";
       project.gallery.forEach(img => {
@@ -339,6 +649,13 @@ function attachCardClicks() {
 
       modalGitHub.href = project.github;
       modalDemo.href = project.demo;
+
+      if (project.report) {
+        modalReport.href = project.report;
+        modalReport.style.display = "inline-block";
+      } else {
+        modalReport.style.display = "none";
+      }
 
       modal.classList.add("active");
       document.body.classList.add("modal-open");

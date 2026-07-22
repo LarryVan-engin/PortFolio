@@ -96,7 +96,9 @@ flowchart TD
           </div>
       </div>
       <p>Bằng việc chuyển từ <strong>suy luận trên toàn khung hình</strong> sang <strong>suy luận trên các vùng ảnh được cắt (Crop)</strong> (chỉ crop mặt đường cho xe, crop góc cao cho đèn), hệ thống đã tiết kiệm được thời gian tính toán và tăng tốc độ lên 1.13 lần (đạt 35.1 FPS trên phần cứng Edge) mà không đánh đổi độ chính xác.</p>
-      
+      <img width="857" height="427" alt="image" src="https://github.com/user-attachments/assets/e3877470-1597-41f4-a8b7-f1ee5d67e9e5" />
+      <p style="text-align: center;">Hình: So sánh 2 phương pháp suy luận toàn frame và trên ROI</p>
+
       <h3 style="margin-top: 20px; margin-bottom: 15px; color: var(--accent-color);">4. Phương pháp Kiểm thử & Giải thuật Chuyên sâu</h3>
       
       <details style="background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);">
@@ -118,7 +120,10 @@ flowchart TD
             <p>Để linh hoạt với các đoạn đường vạch kẻ mờ, hệ thống dùng <strong>vạch dừng ảo</strong> (đoạn thẳng cạnh trên của vùng ROI hình thang) thay vì nhận diện vạch đường vật lý.</p>
             <p>Thuật toán <strong>phân làn data-driven</strong> học cấu trúc làn trực tiếp từ phân bố luồng xe thực tế theo thời gian. Tính năng này đóng vai trò quyết định giúp phát hiện lỗi sai làn, đồng thời hạn chế các cảnh báo sai (false positives).</p>
             <p style="text-align: center;"><img src="https://github.com/user-attachments/assets/8d154b3a-f5e2-433d-89e4-9b1bff37070a" alt="ROI Line" style="max-width: 100%; border-radius: 5px; margin-top: 10px;"></p>
-        </div>
+            <p style="text-align: center;">Hình: Vùng ROI theo dõi vi phạm</p>
+            <img width="851" height="570" alt="image" src="https://github.com/user-attachments/assets/589fea06-306f-4fb4-9db3-9f7d86e8d173" />  
+            <p style="text-align: center;">Hình: Logic tự động phân làn đường (áp dụng cho demo)</p>
+            </div>
       </details>
 
       <details style="background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05);">
@@ -130,9 +135,14 @@ flowchart TD
                 <li>Mở rộng bounding box, đổi ảnh sang Grayscale, áp dụng Adaptive Thresholding và đảo màu nhằm giảm nhiễu.</li>
                 <li>Tự động nhận biết <strong>Biển số 1 dòng</strong> và <strong>Biển số 2 dòng</strong> dựa trên tỷ lệ chiều rộng/cao. Biển 2 dòng sẽ được cắt đôi và OCR tuần tự trên từng dòng.</li>
                 <li><strong>Sửa lỗi theo ngữ cảnh (Contextual Correction):</strong> Ánh xạ các ký tự dễ nhầm lẫn dựa vào định dạng biển số VN (ví dụ: chữ 'O' thành số '0' ở đuôi, số '5' thành chữ 'S' ở cụm seri).</li>
-            </ul>
+                
+                
+                <img width="856" height="361" alt="image" src="https://github.com/user-attachments/assets/dc4f32a0-3a7d-46f5-9b04-dc33662c9da7" />
+                Hình: Các kết quả sau khi hiệu chỉnh và chuẩn hóa OCR
+                </ul>
             <p style="text-align: center;"><img src="https://github.com/user-attachments/assets/4bfb9764-5229-4b0a-98f1-8faa8c96d5a3" alt="OCR Pipeline" style="max-width: 100%; border-radius: 5px; margin-top: 10px;"></p>
-        </div>
+            Hình: Sơ đồ luồng xử lý Plate detection và OCR
+            </div>
       </details>
 
       <h3 style="margin-top: 20px; margin-bottom: 15px; color: var(--accent-color);">5. Đồng bộ WebSocket & Kết xuất Dữ liệu</h3>
